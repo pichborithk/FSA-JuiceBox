@@ -1,5 +1,7 @@
+const { client } = require('../config/default');
+const { users, posts } = require('./dummy.data');
+
 const {
-  client,
   getAllUsers,
   createUser,
   updateUser,
@@ -13,34 +15,11 @@ const {
   getPostsByTagName,
 } = require('./index');
 
-async function createInitialUsers() {
+async function createInitialUsers(users) {
   try {
     console.log('Starting to create users...');
 
-    const albert = await createUser({
-      username: 'albert',
-      password: 'bertie99',
-      name: 'Al Bert',
-      location: 'Sidney, Australia',
-    });
-
-    const sandra = await createUser({
-      username: 'sandra',
-      password: '2sandy4me',
-      name: 'Just Sandra',
-      location: "Ain't tellin'",
-    });
-
-    const glamgal = await createUser({
-      username: 'glamgal',
-      password: 'soglam',
-      name: 'Joshua',
-      location: 'Upper East Side',
-    });
-
-    // console.log(albert);
-    // console.log(sandra);
-    // console.lop(glamgal);
+    await Promise.all(users.map(user => createUser(user)));
 
     console.log('Finished creating users!');
   } catch (error) {
@@ -51,60 +30,21 @@ async function createInitialUsers() {
 
 async function createInitialPosts() {
   try {
-    const [albert, sandra, glamgal] = await getAllUsers();
+    const users = await getAllUsers();
 
     console.log('Starting to create posts...');
-    await createPost({
-      authorId: albert.id,
-      title: 'First Post',
-      content:
-        'This is my first post. I hope I love writing blogs as much as I love writing them.',
-      tags: ['#happy', '#youcandoanything'],
+
+    const postsData = posts.map((post, index) => {
+      return { ...post, authorId: users[index].id };
     });
 
-    await createPost({
-      authorId: sandra.id,
-      title: 'How does this work?',
-      content: 'Seriously, does this even do anything?',
-      tags: ['#happy', '#worst-day-ever'],
-    });
-
-    await createPost({
-      authorId: glamgal.id,
-      title: 'Living the Glam Life',
-      content: 'Do you even? I swear that half of you are posing.',
-      tags: ['#happy', '#youcandoanything', '#canmandoeverything'],
-    });
+    await Promise.all(postsData.map(data => createPost(data)));
 
     console.log('Finished creating posts!');
   } catch (error) {
     throw error;
   }
 }
-
-// async function createInitialTags() {
-//   try {
-//     console.log('Starting to create tags...');
-
-//     const [happy, sad, inspo, catman] = await createTags([
-//       '#happy',
-//       '#worst-day-ever',
-//       '#youcandoanything',
-//       '#catmandoeverything',
-//     ]);
-
-//     const [postOne, postTwo, postThree] = await getAllPosts();
-
-//     await addTagsToPost(postOne.id, [happy, inspo]);
-//     await addTagsToPost(postTwo.id, [sad, inspo]);
-//     await addTagsToPost(postThree.id, [happy, catman, inspo]);
-
-//     console.log('Finished creating tags!');
-//   } catch (error) {
-//     console.log('Error creating tags!');
-//     throw error;
-//   }
-// }
 
 async function dropTables() {
   try {
@@ -171,9 +111,8 @@ async function rebuildDB() {
 
     await dropTables();
     await createTables();
-    await createInitialUsers();
+    await createInitialUsers(users);
     await createInitialPosts();
-    // await createInitialTags();
   } catch (error) {
     console.error(error);
   }

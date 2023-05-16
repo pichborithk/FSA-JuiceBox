@@ -1,0 +1,55 @@
+http://localhost:3000/api/posts
+
+###
+http://localhost:3000/api/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlciI6ImFsYmVydCIsImlhdCI6MTY4NDIxMjg1Mn0.TEY65iYgkVhKWnGU_uMtIYn-9GUBu0_vnn0fSrS2tAM
+
+###
+
+POST http://localhost:3000/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlciI6ImFsYmVydCIsImlhdCI6MTY4NDIxMjg1Mn0.TEY65iYgkVhKWnGU_uMtIYn-9GUBu0_vnn0fSrS2tAM
+
+{
+  "title": "test post", 
+  "content": "how is this?", 
+  "tags": " #once #twice    #happy"
+}
+
+###
+
+POST http://localhost:3000/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlciI6ImFsYmVydCIsImlhdCI6MTY4NDIxMjg1Mn0.TEY65iYgkVhKWnGU_uMtIYn-9GUBu0_vnn0fSrS2tAM
+
+{
+  "title": "I still do not like tags", 
+  "content": "CMON! why do people use them?"
+}
+
+###
+POST http://localhost:3000/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlciI6ImFsYmVydCIsImlhdCI6MTY4NDIxMjg1Mn0.TEY65iYgkVhKWnGU_uMtIYn-9GUBu0_vnn0fSrS2tAM
+
+{
+  "title": "I am quite frustrated"
+}
+
+###
+PATCH http://localhost:3000/api/posts/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlciI6ImFsYmVydCIsImlhdCI6MTY4NDIxMjg1Mn0.TEY65iYgkVhKWnGU_uMtIYn-9GUBu0_vnn0fSrS2tAM
+
+{
+  "title": "updating my old stuff", 
+  "tags": "#oldisnewagain"
+}
+
+###
+http://localhost:3000/api/tags/%23happy/posts
+
+###
+DELETE http://localhost:3000/api/posts/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlciI6ImFsYmVydCIsImlhdCI6MTY4NDIxMjg1Mn0.TEY65iYgkVhKWnGU_uMtIYn-9GUBu0_vnn0fSrS2tAM

@@ -8,6 +8,6 @@ const client = new Client(process.env.DATABASE_URL);
 //   database: 'juicebox-dev',
 // });
 
-const PORT = process.env.PORT || 1337;
+const PORT = process.env.PORT || 3000;
 
 module.exports = { client, PORT };

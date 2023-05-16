@@ -36,12 +36,33 @@ async function getUserById(userId) {
       FROM users
       WHERE id=${userId};
     `);
+
     if (!rows || rows.length === 0) {
       return null;
     }
+
     const [user] = rows;
     // delete user.password;
     user.posts = await getPostsByUser(user.id);
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getUserByUsername(username) {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM users
+      WHERE username=$1;
+      `,
+      [username]
+    );
+
+    const [user] = rows;
+
     return user;
   } catch (error) {
     throw error;
@@ -75,4 +96,10 @@ async function updateUser(id, fields = {}) {
   }
 }
 
-module.exports = { createUser, getAllUsers, getUserById, updateUser };
+module.exports = {
+  createUser,
+  getAllUsers,
+  getUserById,
+  getUserByUsername,
+  updateUser,
+};

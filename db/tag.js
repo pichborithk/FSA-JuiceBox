@@ -3,7 +3,7 @@ const { createPostTag } = require('./post_tag');
 
 async function createTags(tagList) {
   if (tagList.length === 0) {
-    return;
+    return [];
   }
 
   const insertValues = tagList.map((_, index) => `$${index + 1}`).join('), (');
@@ -50,4 +50,17 @@ async function addTagsToPost(postId, tagList) {
   }
 }
 
-module.exports = { createTags, addTagsToPost };
+async function getAllTags() {
+  try {
+    const { rows } = await client.query(`
+      SELECT * 
+      FROM tags;
+    `);
+
+    return { rows };
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports = { createTags, addTagsToPost, getAllTags };

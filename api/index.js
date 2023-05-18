@@ -1,6 +1,5 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
 const apiRouter = express.Router();
 
@@ -13,7 +12,7 @@ const { JWT_SECRET } = process.env;
 apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';
   const auth = req.headers.authorization;
-  // const auth = req.headers['Authorization'];
+  // const auth = req.headers['authorization'];
 
   if (!auth) {
     next();

@@ -1,7 +1,13 @@
+const bcrypt = require('bcrypt');
+
 const { client } = require('../config/default');
 const { getPostsByUser } = require('./post');
 
 async function createUser({ username, password, name, location }) {
+  const salt = await bcrypt.genSalt(Number(process.env.SALT));
+
+  const hash = await bcrypt.hash(password, salt);
+
   try {
     const { rows } = await client.query(
       `
@@ -10,7 +16,7 @@ async function createUser({ username, password, name, location }) {
       ON CONFLICT (username) DO NOTHING
       RETURNING *;
       `,
-      [username, password, name, location]
+      [username, hash, name, location]
     );
 
     const [user] = rows;

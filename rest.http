@@ -1,8 +1,64 @@
+http://localhost:3000
+
+###
+
+http://localhost:3000/api
+
+###
+
+http://localhost:3000/api
+Authorization: Bearer xyz
+
+###
+
+http://localhost:3000/api
+Authorization: The Bears xyz
+
+###
+
 http://localhost:3000/api/posts
 
 ###
+
+http://localhost:3000/api/tags
+
+###
+
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "username": "albert", 
+  "password": "bertie99"
+}
+
+###
+
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+  "username": "syzygy", 
+  "password": "stars", 
+  "name": "josiah"
+}
+
+###
+
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+  "username": "syzygy", 
+  "password": "stars", 
+  "name": "josiah",
+  "location": "quebec"
+}
+
+###
+
 http://localhost:3000/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlciI6ImFsYmVydCIsImlhdCI6MTY4NDIxMjg1Mn0.TEY65iYgkVhKWnGU_uMtIYn-9GUBu0_vnn0fSrS2tAM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlciI6ImFsYmVydCIsImlhdCI6MTY4NDM3Nzg4MX0.wX1v77Iy7EIRNOWG6uSLtTPQyXRCEJ6Ty4ygxmxSdRM
 
 ###
 

@@ -42,7 +42,7 @@ postsRouter.post('/', requireUser, async (req, res, next) => {
 
   try {
     const post = await createPost(postData);
-    res.send({ post });
+    res.send({ success: true, post });
   } catch ({ name, message }) {
     next({ name, message });
   }
@@ -90,7 +90,7 @@ postsRouter.delete('/:postId', requireUser, async (req, res, next) => {
     if (post && post.author.id === req.user.id) {
       const updatedPost = await updatePost(post.id, { active: false });
 
-      res.send({ post: updatedPost });
+      res.send({ success: true, post: updatedPost });
     } else {
       next(
         post

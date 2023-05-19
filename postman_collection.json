@@ -1,0 +1,355 @@
+{
+  "info": {
+    "_postman_id": "63ca148f-1870-435c-870e-666c90452504",
+    "name": "Juciebox",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "25172492"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/users",
+              "host": ["{{host}}"],
+              "path": ["api", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "let username = pm.collectionVariables.replaceIn(\"{{$randomUserName}}\")",
+                  "let name = pm.collectionVariables.replaceIn(\"{{$randomFullName}}\")",
+                  "let location = pm.collectionVariables.replaceIn(\"{{$randomStreetAddress}}\")",
+                  "",
+                  "pm.collectionVariables.set(\"username\", username)",
+                  "pm.collectionVariables.set(\"name\", name)",
+                  "pm.collectionVariables.set(\"location\", location)"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const responseData = JSON.parse(responseBody);",
+                  "",
+                  "if(responseData.token){",
+                  "    console.log('Set new token')",
+                  "pm.collectionVariables.set(\"token\", responseData.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"{{username}}\",\n    \"name\": \"{{name}}\",\n    \"password\": \"{{password}}\",\n    \"location\": \"{{location}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/api/users/register",
+              "host": ["{{host}}"],
+              "path": ["api", "users", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const responseData = JSON.parse(responseBody);",
+                  "",
+                  "if(responseData.token){",
+                  "    console.log('Set new token')",
+                  "pm.collectionVariables.set(\"token\", responseData.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/api/users/login",
+              "host": ["{{host}}"],
+              "path": ["api", "users", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "All Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/posts",
+              "host": ["{{host}}"],
+              "path": ["api", "posts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create  Post",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const responseData = JSON.parse(responseBody);",
+                  "",
+                  "if(responseData.success){",
+                  "    console.log('Set postId')",
+                  "pm.collectionVariables.set(\"postId\", responseData.post.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"{{$randomJobTitle}}\",\n    \"content\": \"{{$randomPhrase}}\",\n    \"tags\": \"#{{$randomAdjective}} #{{$randomAdjective}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/api/posts",
+              "host": ["{{host}}"],
+              "path": ["api", "posts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"{{$randomJobTitle}}\",\n    \"content\": \"{{$randomPhrase}}\",\n    \"tags\": \"#{{$randomAdjective}} #{{$randomAdjective}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/api/posts/:postId",
+              "host": ["{{host}}"],
+              "path": ["api", "posts", ":postId"],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "{{postId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const responseData = JSON.parse(responseBody);",
+                  "",
+                  "if(responseData.success){",
+                  "    console.log('delete postId')",
+                  "pm.collectionVariables.unset(\"postId\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/posts/:postId",
+              "host": ["{{host}}"],
+              "path": ["api", "posts", ":postId"],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "{{postId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tags",
+      "item": [
+        {
+          "name": "All Tags",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/tags",
+              "host": ["{{host}}"],
+              "path": ["api", "tags"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Posts By Tagname",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/tags/%23happy/posts",
+              "host": ["{{host}}"],
+              "path": ["api", "tags", "%23happy", "posts"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "username",
+      "value": ""
+    },
+    {
+      "key": "name",
+      "value": ""
+    },
+    {
+      "key": "password",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "location",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "tagName",
+      "value": ""
+    }
+  ]
+}

@@ -57,7 +57,7 @@ async function getAllTags() {
       FROM tags;
     `);
 
-    return { rows };
+    return rows;
   } catch (error) {
     throw error;
   }
